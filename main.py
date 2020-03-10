@@ -143,7 +143,6 @@ def FillBoardWithRandom():
         board[i][j] = ('X', 'O')[random.randint(0, 1)]
       else:
         board[i][j] = '-'
-
   for box in range(9):
     CheckForWin(board[box], box)
 
@@ -175,6 +174,7 @@ def NextTurn():
 
   if currentBox == -1:
     currentBox = PickBox()
+
   while True:
     playerInput = raw_input("\nPlayer %d, please put an %s in the %s box.\n" % (currentPlayer + 1, ('X', 'O')[currentPlayer], boxNames[currentBox]))
 
@@ -186,10 +186,8 @@ def NextTurn():
       elif board[currentBox][convertedInput] in ('X', 'O'):
         print("That spot is already filled!")
         continue
-      
       break
     except ValueError:
-
       continue
   
   print("")
@@ -232,14 +230,11 @@ def CheckForWin(field, fieldNum, total = False):
     for row in range(3):
       if all( c == sign for c in (field[row * 3], field[row * 3 + 1], field[row * 3 + 2])):
         win = True
-
     for col in range(3):
       if all( c == sign for c in (field[col], field[col + 3], field[col + 6])):
         win = True
-
     if all( c == sign for c in (field[0], field[4], field[8])):
         win = True
-
     if all( c == sign for c in (field[2], field[4], field[6])):
         win = True
 
@@ -253,9 +248,7 @@ def CheckForWin(field, fieldNum, total = False):
         bigBoard[fieldNum] = sign
         ChangeBoard(fieldNum, p)
         CheckForWin(bigBoard, -1, True)
-  
-  
-    if total:
+    elif total:
       if all(c in ('X', 'O', '-') for c in field): # If there is a tie
         totalTie = True
         ClearBoard()
