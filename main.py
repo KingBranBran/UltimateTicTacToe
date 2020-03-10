@@ -6,8 +6,8 @@ bigBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 firstGame = False
 
 # Settings used
-rand = False
-fillPercent = 50
+rand = True
+fillPercent = 80
 
 # --------- #
 # FUNCTIONS #
@@ -100,9 +100,13 @@ def StartGame():
   global totalWin
   global totalTie
   global bigBoard
+  global currentBox
+  global currentPlayer
   bigBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
   totalWin = False
   totalTie = False
+  currentBox = -1
+  currentPlayer = 0
   replit.clear()
   PrintTitle()
   if not firstGame:
@@ -248,16 +252,17 @@ def CheckForWin(field, fieldNum, total = False):
         bigBoard[fieldNum] = sign
         ChangeBoard(fieldNum, p)
         CheckForWin(bigBoard, -1, True)
-    elif total:
-      if all(c in ('X', 'O', '-') for c in field): # If there is a tie
-        totalTie = True
-        ClearBoard()
-        board[4][4] = '-'
-    else:
-      if all(c in ('X', 'O') for c in field): # If there is a tie
-        bigBoard[fieldNum] = '-'
-        ChangeBoard(fieldNum, 2)
-        CheckForWin(bigBoard, -1, True)
+
+  if total:
+    if all(c in ('X', 'O', '-') for c in field): # If there is a tie
+      totalTie = True
+      ClearBoard()
+      board[4][4] = '-'
+  else:
+    if all(c in ('X', 'O') for c in field): # If there is a tie
+      bigBoard[fieldNum] = '-'
+      ChangeBoard(fieldNum, 2)
+      CheckForWin(bigBoard, -1, True)
 
 # Change a box for when a player wins or there is a tie.
 def ChangeBoard(field, player):
